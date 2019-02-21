@@ -1,6 +1,6 @@
 -- The author disclaims copyright to this source code.
 
---[[=
+--[[[
 # au
 
 Encode and decode the [Au](https://en.wikipedia.org/wiki/Au_file_format) audio file 
@@ -12,11 +12,11 @@ format.
 
 local au = {}
 
---[[=
+--[[[
 ## Usage
 --]]
 
---[[=
+--[[[
 ### au.headersize
 
 The minimum size in bytes of an Au header.
@@ -25,7 +25,7 @@ au.headersize = 6 * 4
 
 local format = "c4>I4>I4>I4>I4>I4"
 
---[[=
+--[[[
 ### au.decode(header)
 
 Decode an Au file header.
@@ -40,7 +40,7 @@ function au.decode(input)
 		return nil, "short header"
 	end
 	local magic, offset, size, encoding, rate, channels 
-		= (format):unpack(input)
+		= format:unpack(input)
 	if magic ~= ".snd" then
 		return nil, "invalid magic"
 	end
@@ -61,7 +61,7 @@ function au.decode(input)
 	return output
 end
 
---[[=
+--[[[
 ### au.encode(table)
 
 Encode an Au file header.
@@ -77,7 +77,7 @@ local encoded = au.encode({
 ```
 --]]
 function au.encode(input)
-	local header = (format):pack(
+	local header = format:pack(
 		".snd", 
 		au.headersize, 
 		input.size or 0xffffffff, 
